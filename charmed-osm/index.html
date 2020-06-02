@@ -11,19 +11,19 @@
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/image/brand/icon-1-1.png">
   <link rel="canonical" href="http://xiaokh.github.io/charmed-osm/">
-<link rel="preload" as="style" href="/bundle.css?v=1591074720" media="all">
-<link rel="stylesheet" href="/bundle.css?v=1591074720" media="all">
+<link rel="preload" as="style" href="/bundle.css?v=1591078002" media="all">
+<link rel="stylesheet" href="/bundle.css?v=1591078002" media="all">
 <style>.cdata pre{color:#edf2f7;background-color:#2d3748}.cdata :not(pre)>code{color:#805ad5;background-color:#f7fafc}.chroma .err{color:#fed7d7;background-color:#9b2c2c}.chroma .hl{background-color:#4a5568}.chroma .ln{color:#a0aec0}.chroma .k,.chroma .kc,.chroma .kd,.chroma .kn,.chroma .kp,.chroma .kr{color:#63b3ed}.chroma .kt{color:#b794f4}.chroma .na{color:#f6e05e}.chroma .nb{color:#f6ad55}.chroma .nc{color:#fc8181}.chroma .no{color:#68d391}.chroma .nd{color:#fc8181}.chroma .ne{color:#fc8181}.chroma .nf{color:#f6ad55}.chroma .nt{color:#fc8181}.chroma .l{color:#b794f4}.chroma .dl,.chroma .ld,.chroma .s,.chroma .s2,.chroma .sa,.chroma .sb,.chroma .sc,.chroma .sd{color:#68d391}.chroma .se{color:#a0aec0}.chroma .s1,.chroma .sh,.chroma .si,.chroma .sr,.chroma .ss,.chroma .sx{color:#68d391}.chroma .il,.chroma .m,.chroma .mb,.chroma .mf,.chroma .mh,.chroma .mi,.chroma .mo{color:#b794f4}.chroma .o,.chroma .ow{color:#90cdf4}.chroma .p{color:#cbd5e0}.chroma .c,.chroma .c1,.chroma .ch,.chroma .cm,.chroma .cp,.chroma .cpf,.chroma .cs{color:#a0aec0}.chroma .ge{font-style:italic}.chroma .gs{font-weight:700}</style>
 
-
+<link rel="preload" as="image" href="/image/p2006/osm2-thumbnail.png">
 
 <title>MicroK8s &#43; MicroStack &#43; Charmed OSM : xiaokh</title>
 
 <meta property="og:title" content="MicroK8s &#43; MicroStack &#43; Charmed OSM">
 <meta property="og:site_name" content="xiaokh">
 <meta property="og:url" content="http://xiaokh.github.io/charmed-osm/">
-<link rel="image_src" href="http://xiaokh.github.io/image/page-default.webp">
-<meta property="og:image" content="http://xiaokh.github.io/image/page-default.webp">
+<link rel="image_src" href="http://xiaokh.github.io/image/p2006/osm2-thumbnail.png">
+<meta property="og:image" content="http://xiaokh.github.io/image/p2006/osm2-thumbnail.png">
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
 <meta property="og:type" content="article">
@@ -43,7 +43,7 @@
   "headline": "MicroK8s + MicroStack + Charmed OSM",
   "alternativeHeadline": "1.OSM介绍 ​ 开源MANO(OSM:OpenSource MANO )是ETSI托管的项目，用于开发与ETSI NFV一致的开源NFV管理和编排（MANO）软件堆栈。作为一个社区主导的社区，OSM提供了生产质量的MANO堆栈，可满足运营商对商业NFV（虚拟网络功能）部署的要求。 ​ 而Charmed OSM是Ubuntu上的OSM是一个工具集，可用于直接在工作站上装载和编排实际的VNF。 它包含以下组件：  MicroK8-用于部署将托管OSM安装的本地Kubernetes集群 MicroStack-用于部署本地OpenStack群集并将其用作OSM的VIM（虚拟基础结构管理器） Charmed OSM-简单的OSM安装与上游项目完全一致  下面将进行：  在MicroK8之上部署Charmed OSM 部署MicroStack并将其添加为Charmed OSM的VIM 通过Charmed OSM的部署VNF  2.测试环境： 最小推荐配置:  操作系统Ubuntu 18.04 LTS 内存16 GB 4 CPUs 可用磁盘空间50 GB  特别是内存，一定要满足16G，否则容易出各种错误。 3.开始前的环境准备 sudo snap install juju --classic sudo snap install osmclient --beta sudo snap connect osmclient:juju-client-observe sudo snap connect osmclient:ssh-public-keys sudo snap connect osmclient:network-control juju bootstrap localhost osm-lxd 4.",
   "url": "http://xiaokh.github.io/charmed-osm/",
-  "image": "http://xiaokh.github.io/image/page-default.webp",
+  "image": "http://xiaokh.github.io/image/p2006/osm2-thumbnail.png",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "http://xiaokh.github.io/charmed-osm/"
@@ -67,7 +67,7 @@
 }
 </script>
 
-<link rel="preload" as="script" href="/bundle.js?v=1591074720">
+<link rel="preload" as="script" href="/bundle.js?v=1591078002">
 
 </head>
 <body>
@@ -124,6 +124,18 @@
 
         </div>
       </div>
+    </div>
+  </div>
+  <div class="ax-feature ax-l-o">
+    <div class="ax-l-i">
+
+<figure>
+<img
+class="mb-2 mx-auto leading-none shadow-xl"
+src="/image/p2006/osm2-thumbnail.png"
+alt="MicroK8s &#43; MicroStack &#43; Charmed OSM">
+</figure>
+
     </div>
   </div><div class="ax-content ax-l-o">
     <div class="ax-l-i">
@@ -300,6 +312,6 @@ microstack.openstack server start &lt;server ID&gt;
   </div>
 </footer>
 
-<script src="/bundle.js?v=1591074720"></script>
+<script src="/bundle.js?v=1591078002"></script>
 </body>
 </html>

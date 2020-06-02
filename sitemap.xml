@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://xiaokh.github.io/categories/</loc>
+    <lastmod>2020-06-01T02:11:56Z</lastmod>
+  </url>
+  <url>
+    <loc>http://xiaokh.github.io/tags/microk8/</loc>
+    <lastmod>2020-06-01T02:11:56Z</lastmod>
+  </url>
+  <url>
+    <loc>http://xiaokh.github.io/categories/microk8/</loc>
+    <lastmod>2020-06-01T02:11:56Z</lastmod>
+  </url>
+  <url>
     <loc>http://xiaokh.github.io/charmed-osm/</loc>
+    <lastmod>2020-06-01T02:11:56Z</lastmod>
+  </url>
+  <url>
+    <loc>http://xiaokh.github.io/tags/microstack/</loc>
+    <lastmod>2020-06-01T02:11:56Z</lastmod>
+  </url>
+  <url>
+    <loc>http://xiaokh.github.io/categories/microstack/</loc>
+    <lastmod>2020-06-01T02:11:56Z</lastmod>
+  </url>
+  <url>
+    <loc>http://xiaokh.github.io/tags/osm/</loc>
+    <lastmod>2020-06-01T02:11:56Z</lastmod>
+  </url>
+  <url>
+    <loc>http://xiaokh.github.io/categories/osm/</loc>
     <lastmod>2020-06-01T02:11:56Z</lastmod>
   </url>
   <url>
@@ -9,43 +37,39 @@
     <lastmod>2020-06-01T02:11:56Z</lastmod>
   </url>
   <url>
+    <loc>http://xiaokh.github.io/tags/</loc>
+    <lastmod>2020-06-01T02:11:56Z</lastmod>
+  </url>
+  <url>
     <loc>http://xiaokh.github.io/</loc>
     <lastmod>2020-06-01T02:11:56Z</lastmod>
   </url>
   <url>
-    <loc>http://xiaokh.github.io/tags/blog/</loc>
+    <loc>http://xiaokh.github.io/tags/cheat-sheet/</loc>
     <lastmod>2020-05-31T05:10:34Z</lastmod>
   </url>
   <url>
-    <loc>http://xiaokh.github.io/categories/blog/</loc>
+    <loc>http://xiaokh.github.io/categories/cheat-sheet/</loc>
     <lastmod>2020-05-31T05:10:34Z</lastmod>
   </url>
   <url>
-    <loc>http://xiaokh.github.io/categories/</loc>
+    <loc>http://xiaokh.github.io/tags/markdown/</loc>
     <lastmod>2020-05-31T05:10:34Z</lastmod>
   </url>
   <url>
-    <loc>http://xiaokh.github.io/tags/ce/</loc>
-    <lastmod>2020-05-31T05:10:34Z</lastmod>
-  </url>
-  <url>
-    <loc>http://xiaokh.github.io/categories/ce/</loc>
-    <lastmod>2020-05-31T05:10:34Z</lastmod>
-  </url>
-  <url>
-    <loc>http://xiaokh.github.io/tags/</loc>
-    <lastmod>2020-05-31T05:10:34Z</lastmod>
-  </url>
-  <url>
-    <loc>http://xiaokh.github.io/tags/test/</loc>
-    <lastmod>2020-05-31T05:10:34Z</lastmod>
-  </url>
-  <url>
-    <loc>http://xiaokh.github.io/categories/test/</loc>
+    <loc>http://xiaokh.github.io/categories/markdown/</loc>
     <lastmod>2020-05-31T05:10:34Z</lastmod>
   </url>
   <url>
     <loc>http://xiaokh.github.io/my-first-post/</loc>
+    <lastmod>2020-05-31T05:10:34Z</lastmod>
+  </url>
+  <url>
+    <loc>http://xiaokh.github.io/tags/syntax/</loc>
+    <lastmod>2020-05-31T05:10:34Z</lastmod>
+  </url>
+  <url>
+    <loc>http://xiaokh.github.io/categories/syntax/</loc>
     <lastmod>2020-05-31T05:10:34Z</lastmod>
   </url>
 </urlset>
