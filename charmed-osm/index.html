@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="robots" content="noodp,noydir">
+  <meta name="pinterest" content="nopin">
+  <meta name="hugo-theme" content="Axiom 0.6.6">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/brand/favicon.png">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/image/brand/icon-1-1.png">
+  <link rel="canonical" href="http://xiaokh.github.io/charmed-osm/">
+<link rel="preload" as="style" href="/bundle.css?v=1591074720" media="all">
+<link rel="stylesheet" href="/bundle.css?v=1591074720" media="all">
+<style>.cdata pre{color:#edf2f7;background-color:#2d3748}.cdata :not(pre)>code{color:#805ad5;background-color:#f7fafc}.chroma .err{color:#fed7d7;background-color:#9b2c2c}.chroma .hl{background-color:#4a5568}.chroma .ln{color:#a0aec0}.chroma .k,.chroma .kc,.chroma .kd,.chroma .kn,.chroma .kp,.chroma .kr{color:#63b3ed}.chroma .kt{color:#b794f4}.chroma .na{color:#f6e05e}.chroma .nb{color:#f6ad55}.chroma .nc{color:#fc8181}.chroma .no{color:#68d391}.chroma .nd{color:#fc8181}.chroma .ne{color:#fc8181}.chroma .nf{color:#f6ad55}.chroma .nt{color:#fc8181}.chroma .l{color:#b794f4}.chroma .dl,.chroma .ld,.chroma .s,.chroma .s2,.chroma .sa,.chroma .sb,.chroma .sc,.chroma .sd{color:#68d391}.chroma .se{color:#a0aec0}.chroma .s1,.chroma .sh,.chroma .si,.chroma .sr,.chroma .ss,.chroma .sx{color:#68d391}.chroma .il,.chroma .m,.chroma .mb,.chroma .mf,.chroma .mh,.chroma .mi,.chroma .mo{color:#b794f4}.chroma .o,.chroma .ow{color:#90cdf4}.chroma .p{color:#cbd5e0}.chroma .c,.chroma .c1,.chroma .ch,.chroma .cm,.chroma .cp,.chroma .cpf,.chroma .cs{color:#a0aec0}.chroma .ge{font-style:italic}.chroma .gs{font-weight:700}</style>
+
+
+
+<title>MicroK8s &#43; MicroStack &#43; Charmed OSM : xiaokh</title>
+
+<meta property="og:title" content="MicroK8s &#43; MicroStack &#43; Charmed OSM">
+<meta property="og:site_name" content="xiaokh">
+<meta property="og:url" content="http://xiaokh.github.io/charmed-osm/">
+<link rel="image_src" href="http://xiaokh.github.io/image/page-default.webp">
+<meta property="og:image" content="http://xiaokh.github.io/image/page-default.webp">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_us">
+<meta property="og:description" content="1.OSM介绍 ​ 开源MANO(OSM:OpenSource MANO )是ETSI托管的项目，用于开发与ETSI NFV一致的开源NFV管理和编排（MANO）软件堆栈。作为一个社区主导的社区，OSM提供了生产质量的MANO堆栈，可满足运营商对商业NFV（虚拟网络功能）部署的要求。 ​ 而Charmed OSM是Ubuntu上的OSM是一个工具集，可用于直接在工作站上装载和编排实际的VNF。 它包含以下组件：  MicroK8-用于部署将托管OSM安装的本地Kubernetes集群 MicroStack-用于部署本地OpenStack群集并将其用作OSM的VIM（虚拟基础结构管理器） Charmed OSM-简单的OSM安装与上游项目完全一致  下面将进行：  在MicroK8之上部署Charmed OSM 部署MicroStack并将其添加为Charmed OSM的VIM 通过Charmed OSM的部署VNF  2.测试环境： 最小推荐配置:  操作系统Ubuntu 18.04 LTS 内存16 GB 4 CPUs 可用磁盘空间50 GB  特别是内存，一定要满足16G，否则容易出各种错误。 3.开始前的环境准备 sudo snap install juju --classic sudo snap install osmclient --beta sudo snap connect osmclient:juju-client-observe sudo snap connect osmclient:ssh-public-keys sudo snap connect osmclient:network-control juju bootstrap localhost osm-lxd 4.">
+<meta name="description" content="1.OSM介绍 ​ 开源MANO(OSM:OpenSource MANO )是ETSI托管的项目，用于开发与ETSI NFV一致的开源NFV管理和编排（MANO）软件堆栈。作为一个社区主导的社区，OSM提供了生产质量的MANO堆栈，可满足运营商对商业NFV（虚拟网络功能）部署的要求。 ​ 而Charmed OSM是Ubuntu上的OSM是一个工具集，可用于直接在工作站上装载和编排实际的VNF。 它包含以下组件：  MicroK8-用于部署将托管OSM安装的本地Kubernetes集群 MicroStack-用于部署本地OpenStack群集并将其用作OSM的VIM（虚拟基础结构管理器） Charmed OSM-简单的OSM安装与上游项目完全一致  下面将进行：  在MicroK8之上部署Charmed OSM 部署MicroStack并将其添加为Charmed OSM的VIM 通过Charmed OSM的部署VNF  2.测试环境： 最小推荐配置:  操作系统Ubuntu 18.04 LTS 内存16 GB 4 CPUs 可用磁盘空间50 GB  特别是内存，一定要满足16G，否则容易出各种错误。 3.开始前的环境准备 sudo snap install juju --classic sudo snap install osmclient --beta sudo snap connect osmclient:juju-client-observe sudo snap connect osmclient:ssh-public-keys sudo snap connect osmclient:network-control juju bootstrap localhost osm-lxd 4.">
+<meta property="og:updated_time" content="2020-06-01T02:11:56Z">
+<meta property="fb:app_id" content="">
+<meta name="author" content="xiaokh">
+<meta property="article:author" content="https://xiaookh.github.com/">
+<meta property="article:published_time" content="2020-06-01T02:11:56Z">
+<meta property="article:modified_time" content="2020-06-01T02:11:56Z">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "MicroK8s + MicroStack + Charmed OSM",
+  "alternativeHeadline": "1.OSM介绍 ​ 开源MANO(OSM:OpenSource MANO )是ETSI托管的项目，用于开发与ETSI NFV一致的开源NFV管理和编排（MANO）软件堆栈。作为一个社区主导的社区，OSM提供了生产质量的MANO堆栈，可满足运营商对商业NFV（虚拟网络功能）部署的要求。 ​ 而Charmed OSM是Ubuntu上的OSM是一个工具集，可用于直接在工作站上装载和编排实际的VNF。 它包含以下组件：  MicroK8-用于部署将托管OSM安装的本地Kubernetes集群 MicroStack-用于部署本地OpenStack群集并将其用作OSM的VIM（虚拟基础结构管理器） Charmed OSM-简单的OSM安装与上游项目完全一致  下面将进行：  在MicroK8之上部署Charmed OSM 部署MicroStack并将其添加为Charmed OSM的VIM 通过Charmed OSM的部署VNF  2.测试环境： 最小推荐配置:  操作系统Ubuntu 18.04 LTS 内存16 GB 4 CPUs 可用磁盘空间50 GB  特别是内存，一定要满足16G，否则容易出各种错误。 3.开始前的环境准备 sudo snap install juju --classic sudo snap install osmclient --beta sudo snap connect osmclient:juju-client-observe sudo snap connect osmclient:ssh-public-keys sudo snap connect osmclient:network-control juju bootstrap localhost osm-lxd 4.",
+  "url": "http://xiaokh.github.io/charmed-osm/",
+  "image": "http://xiaokh.github.io/image/page-default.webp",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://xiaokh.github.io/charmed-osm/"
+  },
+  "description": "1.OSM介绍 ​ 开源MANO(OSM:OpenSource MANO )是ETSI托管的项目，用于开发与ETSI NFV一致的开源NFV管理和编排（MANO）软件堆栈。作为一个社区主导的社区，OSM提供了生产质量的MANO堆栈，可满足运营商对商业NFV（虚拟网络功能）部署的要求。 ​ 而Charmed OSM是Ubuntu上的OSM是一个工具集，可用于直接在工作站上装载和编排实际的VNF。 它包含以下组件：  MicroK8-用于部署将托管OSM安装的本地Kubernetes集群 MicroStack-用于部署本地OpenStack群集并将其用作OSM的VIM（虚拟基础结构管理器） Charmed OSM-简单的OSM安装与上游项目完全一致  下面将进行：  在MicroK8之上部署Charmed OSM 部署MicroStack并将其添加为Charmed OSM的VIM 通过Charmed OSM的部署VNF  2.测试环境： 最小推荐配置:  操作系统Ubuntu 18.04 LTS 内存16 GB 4 CPUs 可用磁盘空间50 GB  特别是内存，一定要满足16G，否则容易出各种错误。 3.开始前的环境准备 sudo snap install juju --classic sudo snap install osmclient --beta sudo snap connect osmclient:juju-client-observe sudo snap connect osmclient:ssh-public-keys sudo snap connect osmclient:network-control juju bootstrap localhost osm-lxd 4.",
+  "author": {
+    "@type": "Person",
+    "name": "xiaokh"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xiaokh",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://xiaokh.github.io/image/brand/icon-1-1.png"
+    }
+  },
+  "datePublished": "2020-06-01T02:11:56Z",
+  "dateModified": "2020-06-01T02:11:56Z",
+  "articleBody": "\u003ch5\u003e1.OSM介绍\u003c/h5\u003e\n\u003cp\u003e​     开源MANO(OSM:OpenSource MANO )是ETSI托管的项目，用于开发与ETSI NFV一致的开源NFV管理和编排（MANO）软件堆栈。作为一个社区主导的社区，OSM提供了生产质量的MANO堆栈，可满足运营商对商业NFV（虚拟网络功能）部署的要求。\u003c/p\u003e\n\u003cp\u003e​    而Charmed OSM是Ubuntu上的OSM是一个工具集，可用于直接在工作站上装载和编排实际的VNF。 它包含以下组件：\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003eMicroK8-用于部署将托管OSM安装的本地Kubernetes集群\u003c/li\u003e\n\u003cli\u003eMicroStack-用于部署本地OpenStack群集并将其用作OSM的VIM（虚拟基础结构管理器）\u003c/li\u003e\n\u003cli\u003eCharmed OSM-简单的OSM安装与上游项目完全一致\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003e下面将进行：\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e在MicroK8之上部署Charmed OSM\u003c/li\u003e\n\u003cli\u003e部署MicroStack并将其添加为Charmed OSM的VIM\u003c/li\u003e\n\u003cli\u003e通过Charmed OSM的部署VNF\u003c/li\u003e\n\u003c/ol\u003e\n\u003ch5\u003e2.测试环境：\u003c/h5\u003e\n\u003cp\u003e最小推荐配置:\u003c/p\u003e\n\u003cul\u003e\n\u003cli\u003e操作系统\u003cstrong\u003eUbuntu 18.04 LTS\u003c/strong\u003e\u003c/li\u003e\n\u003cli\u003e内存\u003cstrong\u003e16 GB\u003c/strong\u003e\u003c/li\u003e\n\u003cli\u003e\u003cstrong\u003e4 CPUs\u003c/strong\u003e\u003c/li\u003e\n\u003cli\u003e可用磁盘空间\u003cstrong\u003e50 GB\u003c/strong\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003e特别是内存，一定要满足16G，否则容易出各种错误。\u003c/p\u003e\n\u003ch5\u003e3.开始前的环境准备\u003c/h5\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003esudo snap install juju --classic\nsudo snap install osmclient --beta\nsudo snap connect osmclient:juju-client-observe\nsudo snap connect osmclient:ssh-public-keys\nsudo snap connect osmclient:network-control\n\njuju bootstrap localhost osm-lxd\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003ch5\u003e4.搭建MicroK8s\u003c/h5\u003e\n\u003cp\u003e#因为网络原因，k8s在enable前，需要配置代理，或者设置国内源\n#下面配置代理\nsudo vim /var/snap/microk8s/current/args/containerd-env\n中的\nHTTPS_PROXY=\u003cem\u003ehttps://squid.internal:3128\u003c/em\u003e\u003c/p\u003e\n\u003cp\u003e修改为代理的地址\u003c/p\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003esudo snap install microk8s --classic\n\u003cspan class=\"c1\"\u003e#sudo snap info microk8s\u003c/span\u003e\n\u003cspan class=\"c1\"\u003e#sudo ufw allow in on ens3 \u0026amp;\u0026amp; sudo ufw allow out on ens3\u003c/span\u003e\n\u003cspan class=\"c1\"\u003e#sudo ufw default allow routed\u003c/span\u003e\nsudo microk8s.status\nsudo systemctl restart snap.microk8s.daemon-**\nsudo usermod -a -G microk8s \u003cspan class=\"nv\"\u003e$USER\u003c/span\u003e\nnewgrp microk8s\nmicrok8s.status --wait-ready\nmicrok8s.enable storage dns\nmicrok8s.kubectl cluster-info\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003cp\u003e以下是测试microk8s,可以跳过\u003c/p\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003e\u003cspan class=\"nv\"\u003etoken\u003c/span\u003e\u003cspan class=\"o\"\u003e=\u003c/span\u003e\u003cspan class=\"k\"\u003e$(\u003c/span\u003esudo microk8s.kubectl -n kube-system get secret \u003cspan class=\"p\"\u003e|\u003c/span\u003e grep default-token \u003cspan class=\"p\"\u003e|\u003c/span\u003e cut -d \u003cspan class=\"s2\"\u003e\u0026#34; \u0026#34;\u003c/span\u003e -f1\u003cspan class=\"k\"\u003e)\u003c/span\u003e\nmicrok8s.kubectl -n kube-system describe secret \u003cspan class=\"nv\"\u003e$token\u003c/span\u003e\nsudo microk8s.config\nsudo microk8s.kubectl create deployment microbot --image\u003cspan class=\"o\"\u003e=\u003c/span\u003edontrebootme/microbot:v1\nsudo microk8s.kubectl scale deployment microbot --replicas\u003cspan class=\"o\"\u003e=\u003c/span\u003e\u003cspan class=\"m\"\u003e2\u003c/span\u003e\nsudo microk8s.kubectl expose deployment microbot --type\u003cspan class=\"o\"\u003e=\u003c/span\u003eNodePort --port\u003cspan class=\"o\"\u003e=\u003c/span\u003e\u003cspan class=\"m\"\u003e80\u003c/span\u003e --name\u003cspan class=\"o\"\u003e=\u003c/span\u003emicrobot-service\nsudo microk8s.stop\nsudo microk8s.start\nsudo microk8s.inspect\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003ch5\u003e5.搭建MicroStack\u003c/h5\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003esudo snap install microstack --classic --beta\nsudo microstack.init --auto\nwget https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-amd64-disk1.img\nmicrostack.openstack image create --public --disk-format qcow2 \u003cspan class=\"se\"\u003e\\\n\u003c/span\u003e\u003cspan class=\"se\"\u003e\u003c/span\u003e  --container-format bare \u003cspan class=\"se\"\u003e\\ \u003c/span\u003e\n  --file ubuntu-16.04-server-cloudimg-amd64-disk1.img ubuntu1604\n\nmicrostack.openstack server list\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003ch5\u003e6.搭建Charmed OSM\u003c/h5\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003ejuju bootstrap microk8s osm-k8s\njuju add-model osm\nosmclient.overlay\njuju deploy osm --overlay vca-overlay.yaml\njuju status\n\u003cspan class=\"nb\"\u003eexport\u003c/span\u003e \u003cspan class=\"nv\"\u003eOSM_HOSTNAME\u003c/span\u003e\u003cspan class=\"o\"\u003e=\u003c/span\u003e\u003cspan class=\"sb\"\u003e`\u003c/span\u003ejuju status nbi-k8s \u003cspan class=\"p\"\u003e|\u003c/span\u003e grep kubernetes \u003cspan class=\"p\"\u003e|\u003c/span\u003e awk \u003cspan class=\"s1\"\u003e\u0026#39;{print $9}\u0026#39;\u003c/span\u003e\u003cspan class=\"sb\"\u003e`\u003c/span\u003e\n\u003cspan class=\"nb\"\u003eecho\u003c/span\u003e \u003cspan class=\"s2\"\u003e\u0026#34;export OSM_HOSTNAME=\u003c/span\u003e\u003cspan class=\"nv\"\u003e$OSM_HOSTNAME\u003c/span\u003e\u003cspan class=\"s2\"\u003e\u0026#34;\u003c/span\u003e \u0026gt;\u0026gt; ~/.bashrc\nosmclient.osm ns-list\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003ch5\u003e7.设置MicroStack作为VIM\u003c/h5\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003e      osmclient.osm vim-create --name microstack \u003cspan class=\"se\"\u003e\\\n\u003c/span\u003e\u003cspan class=\"se\"\u003e\u003c/span\u003e      --user admin \u003cspan class=\"se\"\u003e\\\n\u003c/span\u003e\u003cspan class=\"se\"\u003e\u003c/span\u003e      --password keystone \u003cspan class=\"se\"\u003e\\\n\u003c/span\u003e\u003cspan class=\"se\"\u003e\u003c/span\u003e      --auth_url http://10.20.20.1:5000/v3 \u003cspan class=\"se\"\u003e\\\n\u003c/span\u003e\u003cspan class=\"se\"\u003e\u003c/span\u003e      --tenant admin \u003cspan class=\"se\"\u003e\\\n\u003c/span\u003e\u003cspan class=\"se\"\u003e\u003c/span\u003e      --account_type openstack \u003cspan class=\"se\"\u003e\\\n\u003c/span\u003e\u003cspan class=\"se\"\u003e\u003c/span\u003e      --config\u003cspan class=\"o\"\u003e=\u003c/span\u003e\u003cspan class=\"s1\"\u003e\u0026#39;{security_groups: default,\n\u003c/span\u003e\u003cspan class=\"s1\"\u003e                 keypair: microstack,\n\u003c/span\u003e\u003cspan class=\"s1\"\u003e                 project_name: admin,\n\u003c/span\u003e\u003cspan class=\"s1\"\u003e                 user_domain_name: default,\n\u003c/span\u003e\u003cspan class=\"s1\"\u003e                 region_name: microstack,\n\u003c/span\u003e\u003cspan class=\"s1\"\u003e                 insecure: True,\n\u003c/span\u003e\u003cspan class=\"s1\"\u003e                 availability_zone: nova,\n\u003c/span\u003e\u003cspan class=\"s1\"\u003e                 version: 3,\n\u003c/span\u003e\u003cspan class=\"s1\"\u003e                 use_floating_ip: true}\u0026#39;\u003c/span\u003e\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003ch5\u003e8.部署VNFs\u003c/h5\u003e\n\u003cp\u003e下载以下文件需要科学上网\u003c/p\u003e\n\u003cp\u003eexport http_proxy=http://xxx.xxx.xxx.xxx:1234\u003c/p\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003ewget http://bit.ly/basic_vnfd -O hackfest_basic_vnf.tar.gz\nwget http://bit.ly/basic_nsd -O hackfest_basic_ns.tar.gz\nosmclient.osm upload-package hackfest_basic_vnf.tar.gz\nosmclient.osm upload-package hackfest_basic_ns.tar.gz\nosmclient.osm nsd-list\nosmclient.osm vnfd-list\nosmclient.osm ns-create --ns_name hackfest_basic_ns --nsd_name hackfest_basic-ns --vim_account microstack --config \u003cspan class=\"s1\"\u003e\u0026#39;{vld: [ { name: mgmtnet, vim-network-name: test } ] }\u0026#39;\u003c/span\u003e\nosmclient.osm ns-list\nosmclient.osm ns-show hackfest_basic_ns\n\u003cspan class=\"nv\"\u003eIP\u003c/span\u003e\u003cspan class=\"o\"\u003e=\u003c/span\u003e\u003cspan class=\"sb\"\u003e`\u003c/span\u003emicrostack.openstack server list -c Networks -f value --name basic \u003cspan class=\"p\"\u003e|\u003c/span\u003e awk \u003cspan class=\"s1\"\u003e\u0026#39;{ print $2 }\u0026#39;\u003c/span\u003e\u003cspan class=\"sb\"\u003e`\u003c/span\u003e\nssh ubuntu@\u003cspan class=\"nv\"\u003e$IP\u003c/span\u003e -i .ssh/id_microstack\n\u003cspan class=\"nb\"\u003eunset\u003c/span\u003e http_proxy\nmicrostack.openstack catalog list\nmicrostack.openstack server list\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003cp\u003eOSM截图\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e\n\u003cp\u003eLogin\n\u003cimg src=\"/image/p2006/osm1.png\" alt=\"OSM Login\"\u003e\n用户名/密码: admin/admin\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\n\u003cp\u003eDashboard\n\u003cimg src=\"/image/p2006/osm2.png\" alt=\"OSM dashboard\"\u003e\u003c/p\u003e\n\u003c/li\u003e\n\u003c/ol\u003e\n\u003ch5\u003e9.收尾工作\u003c/h5\u003e\n\u003cp\u003e建议您在不使用开发堆栈时将其禁用，尤其是在工作站上运行它时。 这样，您就不会浪费工作站的资源。 您可以通过运行以下命令来禁用开发堆栈：\u003c/p\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003e\u003cspan class=\"c1\"\u003e#Enable/Disable the Development Stack\u003c/span\u003e\nmicrok8s.disable dns\nsudo snap disable microstack\nsudo snap disable microk8s\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003cp\u003e您始终可以使用以下命令启用开发堆栈：\u003c/p\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003esudo snap \u003cspan class=\"nb\"\u003eenable\u003c/span\u003e microstack\u003cspan class=\"p\"\u003e;\u003c/span\u003e sleep \u003cspan class=\"m\"\u003e60\u003c/span\u003e\nsudo snap \u003cspan class=\"nb\"\u003eenable\u003c/span\u003e microk8s\nmicrok8s.status --wait-ready\nmicrok8s.enable dns\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003cp\u003e通常，重新启动Openstack计算节点时，服务器处于关闭状态，因此您需要启动它们：\u003c/p\u003e\n\u003cdiv class=\"highlight\"\u003e\u003cpre class=\"chroma\"\u003e\u003ccode class=\"language-shell\" data-lang=\"shell\"\u003emicrostack.openstack server list\nmicrostack.openstack server start \u0026lt;server ID\u0026gt;\n\u003c/code\u003e\u003c/pre\u003e\u003c/div\u003e\u003cp\u003e注意\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e内存要足够\u003c/li\u003e\n\u003cli\u003ejuju和k8s的状态要检查，可能很耗时等待status为active或running\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp\u003eReference\u003c/p\u003e\n\u003col\u003e\n\u003cli\u003e\u003ca href=\"https://jaas.ai/tutorials/charmed-osm-get-started\"\u003echarmed-osm-get-started\u003c/a\u003e\u003c/li\u003e\n\u003c/ol\u003e"
+}
+</script>
+
+<link rel="preload" as="script" href="/bundle.js?v=1591074720">
+
+</head>
+<body>
+  <header id="nav" class="header">
+  <div class="ax-l-i">
+    <div class="ax-logo">
+      <a class="block" href="/" title="xiaokh"><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="3.8676720258592434 103.6599813432836 713.6862374203229 303.94197997871134" width="120" height="51"><defs><path d="M385.73 191.74C387.53 195.03 386.07 197.75 386.07 197.75C386.07 197.75 377.49 196.36 377.05 188.38C377.05 188.38 383.86 188.3 385.73 191.74M407.77 211.94C406.64 214.56 399.89 221.72 399.89 221.72C399.64 221.16 397.66 216.69 397.42 216.13C397.42 216.13 393.4 213.31 387.57 213.06C381.74 212.82 363.96 233.8 363.96 233.8C363.79 233.35 362.94 231.1 361.41 227.05L349.35 230.73L355.17 217.43L339.45 217.2L348.59 203.42C341.43 202.9 337.45 202.61 336.66 202.55C336.66 202.55 347.84 191.02 347.71 190.31C347.58 189.61 342.3 185.26 342.3 185.26C353.43 179.82 388.71 172.87 395.65 195.53C406.35 201.2 408.89 209.31 407.77 211.94M516.34 167.97C519.83 168.37 523.58 168.49 527.51 168.78C531.46 169 535.58 169.41 539.91 169.47C544.23 169.6 548.73 169.73 553.38 169.87C558.04 169.85 562.85 169.83 567.79 169.81C572.74 169.76 577.81 169.46 582.99 169.29C588.17 169.11 593.44 168.58 598.81 168.23C604.17 167.83 609.6 167.12 615.1 166.56C620.58 165.87 626.11 165.05 631.68 164.23C642.79 162.33 654.03 160.24 665.1 157.44C676.21 154.81 687.15 151.54 697.8 148.06C703.39 146.2 708.89 144.21 714.27 142.15C718.46 130.66 718.92 118.94 714.03 112.85C625.68 184.09 477.52 131.6 452.37 143.47C464.25 154.98 461.16 202.28 435.28 204.06C412.24 201.42 397.3 171.56 364.76 172.74C326.88 174.12 304.93 203.64 283.67 203.74C260.07 199.22 257.56 154.6 269.06 143.47C243.91 131.6 95.74 184.09 7.4 112.85C2.5 118.94 2.96 130.66 7.15 142.15C12.54 144.21 18.03 146.2 23.63 148.06C34.27 151.54 45.21 154.81 56.32 157.44C67.39 160.24 78.63 162.33 89.74 164.23C95.31 165.05 100.84 165.87 106.33 166.56C111.82 167.12 117.25 167.83 122.61 168.23C127.98 168.58 133.25 169.11 138.43 169.29C143.61 169.46 148.69 169.76 153.63 169.81C158.57 169.83 163.38 169.85 168.04 169.87C172.7 169.73 177.19 169.6 181.51 169.47C185.84 169.41 189.97 169 193.91 168.78C197.84 168.49 201.59 168.37 205.08 167.97C212.08 167.23 218.21 166.75 223.23 166.06C233.26 164.71 239 163.94 239 163.94C239 163.94 233.32 165.12 223.4 167.18C218.43 168.22 212.34 169.13 205.37 170.37C201.89 171.03 198.15 171.41 194.22 171.99C190.28 172.48 186.15 173.19 181.81 173.56C177.47 173.99 172.95 174.45 168.27 174.93C163.58 175.24 158.72 175.56 153.73 175.9C148.74 176.21 143.6 176.26 138.34 176.46C133.08 176.65 127.7 176.49 122.22 176.53C116.75 176.51 111.19 176.17 105.55 176.01C99.92 175.7 94.22 175.26 88.47 174.83C77 173.7 65.33 172.37 53.76 170.3C42.15 168.41 30.66 165.84 19.39 163.02C16.1 162.18 12.85 161.29 9.61 160.37C5.11 168.94 8.64 179.87 16.57 187.55C20.84 187.96 25.21 188.43 29.68 188.63C34.31 188.9 39.01 189.18 43.77 189.47C48.55 189.6 53.39 189.73 58.27 189.87C60.71 189.93 63.16 189.99 65.62 190.06C68.08 190.1 70.55 190.04 73.02 190.04C77.98 190.02 82.95 189.99 87.93 189.96C97.88 189.77 107.84 189.33 117.66 189C127.47 188.38 137.13 187.78 146.48 187.2C155.82 186.38 164.85 185.58 173.41 184.83C181.98 184.05 190.05 183.01 197.52 182.21C204.99 181.37 211.84 180.65 217.88 179.77C223.94 178.95 229.22 178.23 233.57 177.64C242.26 176.46 247.24 175.79 247.24 175.79C247.24 175.79 242.33 176.87 233.76 178.75C229.47 179.69 224.25 180.84 218.28 182.16C212.31 183.53 205.52 184.82 198.13 186.27C190.73 187.68 182.73 189.38 174.22 190.86C165.69 192.32 156.7 193.86 147.41 195.45C138.06 196.8 128.4 198.21 118.58 199.63C108.73 200.78 98.71 202.05 88.66 203.06C83.62 203.5 78.59 203.94 73.57 204.38C71.06 204.59 68.56 204.85 66.05 205.01C63.54 205.15 61.04 205.29 58.55 205.43C53.57 205.7 48.62 205.97 43.73 206.24C38.83 206.35 33.98 206.46 29.21 206.56C27.41 206.63 25.63 206.65 23.85 206.65C20.14 218.54 32.1 230.96 41.33 238.75C46.52 236.9 51.87 235.03 57.38 233.19C74 227.56 91.89 222.09 109.89 217.18C114.39 215.94 118.89 214.74 123.39 213.59C127.88 212.41 132.37 211.3 136.82 210.22C141.27 209.11 145.7 208.08 150.07 207.08C154.44 206.05 158.77 205.08 163.03 204.18C171.54 202.28 179.8 200.65 187.62 199.07C195.46 197.6 202.86 196.14 209.72 194.98C213.15 194.38 216.43 193.8 219.55 193.25C222.68 192.74 225.65 192.25 228.43 191.8C234.01 190.88 238.87 190.1 242.88 189.52C250.9 188.32 255.47 187.64 255.47 187.64C255.47 187.64 250.97 188.73 243.09 190.63C239.15 191.56 234.38 192.76 228.91 194.17C226.18 194.87 223.27 195.61 220.2 196.39C217.15 197.22 213.94 198.08 210.58 198.98C203.87 200.74 196.65 202.84 189 205C181.38 207.25 173.34 209.59 165.08 212.21C160.94 213.49 156.75 214.82 152.52 216.22C148.28 217.6 144 219 139.7 220.49C135.4 221.94 131.07 223.43 126.75 224.99C122.42 226.51 118.08 228.08 113.77 229.7C96.48 236.09 79.41 243.02 63.63 249.96C60.05 251.52 56.55 253.09 53.12 254.64C52.12 266.35 65.69 275.49 76.95 278.7C89.31 267.94 103.14 257.79 117.67 248.98C134.49 238.73 152.22 230.3 169.21 223.69C177.71 220.38 186.02 217.48 193.97 215.04C201.92 212.59 209.48 210.44 216.51 208.73C223.53 206.95 230.01 205.55 235.75 204.35C241.5 203.21 246.52 202.26 250.67 201.57C254.81 200.82 258.08 200.37 260.3 200.02C262.53 199.67 263.71 199.49 263.71 199.49C263.71 199.49 262.55 199.77 260.36 200.3C258.17 200.85 254.96 201.58 250.9 202.67C246.83 203.71 241.92 205.08 236.31 206.71C230.72 208.38 224.42 210.32 217.64 212.66C210.83 214.95 203.56 217.71 195.95 220.78C188.35 223.85 180.45 227.38 172.44 231.31C156.41 239.18 139.97 248.8 124.71 259.97C112.45 268.91 100.98 278.82 90.77 289.09C91.23 297.28 100.2 300.33 113.29 301.97C115.51 299.04 117.78 296.14 120.12 293.31C127.35 284.67 135.14 276.56 143.32 269.19C151.53 261.85 160.12 255.26 168.79 249.51C177.45 243.76 186.2 238.84 194.71 234.69C203.22 230.56 211.46 227.12 219.2 224.39C226.94 221.68 234.11 219.44 240.54 217.81C242.15 217.39 243.7 216.98 245.2 216.59C246.71 216.24 248.16 215.91 249.56 215.59C252.35 214.93 254.92 214.37 257.26 213.94C261.92 212.98 265.6 212.38 268.11 211.98C270.61 211.56 271.95 211.34 271.95 211.34C271.95 211.34 270.63 211.66 268.16 212.26C265.69 212.86 262.07 213.73 257.52 215.04C255.23 215.64 252.71 216.38 249.99 217.26C248.63 217.68 247.21 218.12 245.75 218.57C244.29 219.07 242.78 219.59 241.22 220.13C234.99 222.23 228.07 224.97 220.67 228.21C213.27 231.47 205.46 235.44 197.48 240.08C189.51 244.74 181.4 250.14 173.48 256.3C165.56 262.46 157.82 269.37 150.53 276.94C143.27 284.53 136.46 292.77 130.24 301.43C128.83 303.41 127.46 305.42 126.12 307.44C128.88 312.36 135.63 315.33 145.76 313.56C145.87 313.38 145.97 313.19 146.08 313C152.82 302.08 160.27 291.84 168.41 282.79C176.51 273.71 185.15 265.72 193.94 258.99C202.72 252.25 211.62 246.76 220.13 242.38C228.65 238.02 236.74 234.65 244.04 232.12C247.69 230.87 251.14 229.81 254.34 228.85C257.57 228.02 260.5 227.16 263.19 226.54C265.89 225.95 268.29 225.41 270.39 224.95C272.49 224.53 274.29 224.25 275.74 223.98C278.64 223.47 280.19 223.19 280.19 223.19C280.19 223.19 278.66 223.57 275.79 224.27C274.36 224.63 272.59 225.03 270.53 225.58C268.48 226.18 266.12 226.86 263.48 227.63C260.85 228.42 257.98 229.46 254.85 230.5C251.74 231.65 248.4 232.92 244.88 234.39C237.84 237.35 230.11 241.18 222.07 245.98C214.03 250.79 205.73 256.68 197.68 263.74C189.62 270.78 181.81 278.99 174.62 288.17C167.95 296.62 161.95 306 156.53 315.89C158.71 319.6 166.91 320.48 174.27 318.4C180.46 307.25 187.36 296.97 194.86 287.97C203.16 278.07 212.1 269.71 221.04 263.02C229.99 256.32 238.9 251.28 247.05 247.47C249.1 246.57 251.1 245.7 253.02 244.86C254.95 244.05 256.87 243.41 258.68 242.72C262.29 241.29 265.75 240.4 268.8 239.42C274.99 237.72 279.89 236.57 283.27 236.01C284.67 235.75 285.78 235.54 286.62 235.38C286.63 235.39 286.66 235.47 286.67 235.48C285.83 235.69 284.72 235.96 283.33 236.3C279.99 237.05 275.17 238.47 269.13 240.5C266.15 241.64 262.78 242.7 259.3 244.32C257.54 245.11 255.69 245.84 253.83 246.75C251.98 247.69 250.07 248.65 248.09 249.65C240.29 253.84 231.85 259.26 223.52 266.26C215.18 273.24 206.99 281.81 199.52 291.78C193.42 299.99 187.85 309.17 182.87 319.02C186.7 322.05 191.91 322.05 199.9 319.25C206.79 306.64 214.62 295.42 223.19 286.28C231.96 276.81 241.27 269.45 250.11 264.02C254.49 261.22 258.86 259.1 262.86 257.12C266.98 255.38 270.72 253.69 274.25 252.6C276.01 252.01 277.64 251.4 279.22 250.93C280.8 250.5 282.29 250.11 283.68 249.73C285.06 249.36 286.33 249.02 287.5 248.7C288.69 248.47 289.77 248.26 290.74 248.06C291.56 247.9 292.28 247.76 292.93 247.63C292.96 247.69 292.99 247.74 293.02 247.8C292.37 247.97 291.64 248.15 290.8 248.35C289.85 248.59 288.79 248.86 287.61 249.15C286.46 249.52 285.21 249.92 283.85 250.36C282.49 250.79 281.04 251.26 279.48 251.76C277.94 252.3 276.34 252.99 274.64 253.66C271.19 254.91 267.57 256.77 263.6 258.68C259.74 260.82 255.55 263.11 251.39 266.06C242.98 271.8 234.26 279.42 226.19 289.02C218.94 297.53 212.39 307.7 206.65 319C209.71 322.36 214.96 321.32 218.82 318.06C225.83 305.06 233.85 293.51 242.64 284.14C251.41 274.66 260.72 267.3 269.56 261.87C273.94 259.08 279.09 257.31 283.09 255.33C285.86 254.17 289.82 252.9 293.21 251.86C290.02 253.09 286.69 254.78 283.05 256.53C279.19 258.68 275 260.97 270.84 263.91C262.43 269.66 253.71 277.28 245.64 286.88C238.31 295.48 231.69 305.78 225.91 317.24C229.84 318.96 234.67 318.96 238.59 315.33C245.53 302.57 253.44 291.22 262.09 281.99C270.86 272.52 280.17 265.15 289.01 259.72C289.12 259.66 289.23 259.6 289.34 259.52C283.01 264.22 275.53 270.72 266.18 281.86C259.16 290.22 251.58 302.93 245.94 313.93C249.96 316.38 254.34 314.66 259.3 310.91C264.64 301.4 270.52 292.73 276.86 285.18C273.32 293.05 269.82 303.47 266.88 308.97C271.82 310.17 274.81 309.7 281.05 304.77C281.95 303.25 282.87 301.75 283.8 300.28C281.97 296.44 280.62 288.19 280.94 280.29C282.95 270.41 290.12 262.54 299.39 258.78C309.92 276.69 320.81 293.63 332.26 309.32C331.76 310.56 329.26 316.78 324.77 327.98C289.2 374.76 269.44 400.75 265.48 405.94C268.9 408.51 274.63 408.07 283.61 403.43C287.34 397.95 305.95 370.58 339.45 321.32C312.73 369.64 297.88 396.49 294.91 401.86C297.59 404.31 302.43 403.39 308.9 399.92C310.45 396.55 312.01 393.17 313.56 389.77C326.67 361.13 339.53 332.38 343.33 323.86C343.4 323.94 343.47 324.03 343.54 324.11C340.52 333.16 330.59 362.9 320.38 392.59C319.69 394.6 319 396.61 318.31 398.61C321.16 400.61 325.5 400.11 331.52 396.78C331.96 395.01 332.4 393.23 332.84 391.46C338.99 366.55 344.82 341.54 347.66 329.22C347.91 329.51 348.15 329.8 348.39 330.09C346.78 342.89 343.59 367.9 340.06 392.91C339.93 393.82 339.8 394.73 339.67 395.65C343.55 398.29 347.62 397.41 351.83 393.96C351.85 393.61 351.87 393.25 351.89 392.9C352.88 371.73 353.61 350.53 354.04 336.76C354.62 337.43 355.19 338.1 355.77 338.76C356.75 352.51 358.12 372.67 359.25 392.87C359.25 392.89 359.25 392.91 359.25 392.93C363.01 396.85 366.78 396.95 370.56 393.9C367.79 374.57 364.85 355.28 362.69 341.46C363.23 340.86 363.77 340.25 364.31 339.62C367.88 353.32 372.95 373.01 377.82 392.79C378.01 393.52 378.19 394.25 378.36 394.98C383.3 397.94 386.77 398.11 389.31 396.5C389.22 396.22 389.13 395.93 389.04 395.65C381.37 371.89 373.51 348.21 368.82 334.16C369.11 333.79 369.41 333.4 369.71 333.02C375.66 346.45 385.88 369.65 395.91 392.97C396.6 394.55 397.27 396.12 397.95 397.7C403.33 401.04 406.34 400.88 408.26 399.13C407.95 398.49 407.63 397.85 407.32 397.21C393.38 369.24 379.47 341.29 373.1 328.52C373.25 328.31 373.4 328.1 373.55 327.9C380.92 339.93 397.32 366.74 413.74 393.55C415.14 395.86 416.55 398.17 417.94 400.48C422.93 403.33 425.74 403.31 427.43 401.79C422.32 394.02 381.43 331.82 376.32 324.04C376.37 323.97 376.43 323.89 376.48 323.82C382.66 331.77 432.15 395.36 438.34 403.31C448.42 408.76 453.64 408.28 457.33 405.94C453.38 400.75 433.62 374.76 398.05 327.98C392.54 314.27 389.49 306.65 388.87 305.13C399.28 288.72 409.52 271.25 418.61 257.59C429.51 260.66 438.23 269.22 440.48 280.29C440.8 288.19 439.46 296.44 437.63 300.28C438.55 301.75 439.47 303.25 440.37 304.77C446.61 309.7 449.6 310.17 454.55 308.97C451.6 303.47 448.1 293.05 444.57 285.18C450.9 292.73 456.79 301.4 462.13 310.91C467.09 314.66 471.46 316.38 475.49 313.93C469.84 302.93 462.26 290.22 455.24 281.86C445.89 270.72 438.41 264.22 432.09 259.52C432.2 259.6 432.3 259.66 432.41 259.72C441.25 265.15 450.56 272.52 459.33 281.99C467.99 291.22 475.9 302.57 482.84 315.33C486.76 318.96 491.59 318.96 495.52 317.24C489.73 305.78 483.11 295.48 475.79 286.88C467.72 277.28 458.99 269.66 450.59 263.91C446.42 260.97 442.23 258.68 438.37 256.53C434.73 254.78 431.4 253.09 428.21 251.86C431.6 252.9 435.57 254.17 438.33 255.33C442.33 257.31 447.48 259.08 451.86 261.87C460.7 267.3 470.02 274.66 478.78 284.14C487.57 293.51 495.59 305.06 502.6 318.06C506.46 321.32 511.72 322.36 514.78 319C509.04 307.7 502.48 297.53 495.24 289.02C487.17 279.42 478.44 271.8 470.03 266.06C465.87 263.11 461.68 260.82 457.82 258.68C453.85 256.77 450.23 254.91 446.79 253.66C445.08 252.99 443.48 252.3 441.94 251.76C440.39 251.26 438.93 250.79 437.57 250.36C436.21 249.92 434.96 249.52 433.81 249.15C432.63 248.86 431.57 248.59 430.62 248.35C428.46 247.82 426.9 247.43 425.92 247.19C425.94 247.17 425.95 247.15 425.96 247.14C426.95 247.33 428.52 247.64 430.68 248.06C431.65 248.26 432.73 248.47 433.92 248.7C435.09 249.02 436.37 249.36 437.75 249.73C439.13 250.11 440.62 250.5 442.2 250.93C443.78 251.4 445.42 252.01 447.17 252.6C450.71 253.69 454.44 255.38 458.56 257.12C462.56 259.1 466.93 261.22 471.31 264.02C480.15 269.45 489.46 276.81 498.23 286.28C506.8 295.42 514.64 306.64 521.52 319.25C529.51 322.05 534.72 322.05 538.56 319.02C533.57 309.17 528.01 299.99 521.9 291.78C514.43 281.81 506.24 273.24 497.9 266.26C489.57 259.26 481.14 253.84 473.34 249.65C471.36 248.65 469.44 247.69 467.6 246.75C465.74 245.84 463.88 245.11 462.13 244.32C458.64 242.7 455.27 241.64 452.29 240.5C446.25 238.47 441.43 237.05 438.09 236.3C437.38 236.12 436.76 235.97 436.19 235.83C436.25 235.78 436.31 235.73 436.37 235.68C436.91 235.78 437.49 235.89 438.16 236.01C441.54 236.57 446.44 237.72 452.62 239.42C455.67 240.4 459.13 241.29 462.74 242.72C464.55 243.41 466.47 244.05 468.4 244.86C470.32 245.7 472.32 246.57 474.38 247.47C482.52 251.28 491.44 256.32 500.38 263.02C509.32 269.71 518.26 278.07 526.56 287.97C534.06 296.97 540.96 307.25 547.15 318.4C554.51 320.48 562.71 319.6 564.9 315.89C559.48 306 553.47 296.62 546.81 288.17C539.61 278.99 531.81 270.78 523.75 263.74C515.69 256.68 507.39 250.79 499.36 245.98C491.31 241.18 483.58 237.35 476.55 234.39C473.02 232.92 469.68 231.65 466.57 230.5C463.44 229.46 460.57 228.42 457.94 227.63C455.3 226.86 452.94 226.18 450.89 225.58C448.83 225.03 447.06 224.63 445.63 224.27C445.32 224.19 445.03 224.12 444.75 224.05C444.76 224.03 444.81 223.85 444.81 223.83C445.09 223.88 445.38 223.93 445.68 223.98C447.14 224.25 448.94 224.53 451.04 224.95C453.13 225.41 455.54 225.95 458.23 226.54C460.92 227.16 463.86 228.02 467.09 228.85C470.28 229.81 473.73 230.87 477.38 232.12C484.68 234.65 492.77 238.02 501.29 242.38C509.8 246.76 518.71 252.25 527.48 258.99C536.27 265.72 544.91 273.71 553.01 282.79C561.15 291.84 568.6 302.08 575.34 313C575.45 313.19 575.55 313.38 575.67 313.56C585.8 315.33 592.54 312.36 595.3 307.44C593.96 305.42 592.59 303.41 591.19 301.43C584.96 292.77 578.16 284.53 570.9 276.94C563.6 269.37 555.86 262.46 547.94 256.3C540.02 250.14 531.91 244.74 523.94 240.08C515.96 235.44 508.15 231.47 500.76 228.21C493.35 224.97 486.44 222.23 480.2 220.13C478.64 219.59 477.13 219.07 475.68 218.57C474.21 218.12 472.79 217.68 471.43 217.26C468.71 216.38 466.2 215.64 463.91 215.04C459.35 213.73 455.73 212.86 453.26 212.26C450.79 211.66 449.47 211.34 449.47 211.34C449.47 211.34 450.81 211.56 453.31 211.98C455.83 212.38 459.51 212.98 464.16 213.94C466.5 214.37 469.07 214.93 471.86 215.59C473.26 215.91 474.71 216.24 476.22 216.59C477.72 216.98 479.27 217.39 480.88 217.81C487.32 219.44 494.48 221.68 502.22 224.39C509.96 227.12 518.2 230.56 526.71 234.69C535.22 238.84 543.97 243.76 552.64 249.51C561.31 255.26 569.89 261.85 578.1 269.19C586.28 276.56 594.08 284.67 601.31 293.31C603.65 296.14 605.91 299.04 608.13 301.97C621.22 300.33 630.2 297.28 630.65 289.09C620.44 278.82 608.98 268.91 596.71 259.97C581.45 248.8 565.01 239.18 548.99 231.31C540.97 227.38 533.08 223.85 525.47 220.78C517.86 217.71 510.59 214.95 503.78 212.66C497 210.32 490.71 208.38 485.11 206.71C479.5 205.08 474.59 203.71 470.52 202.67C466.47 201.58 463.25 200.85 461.06 200.3C458.88 199.77 457.71 199.49 457.71 199.49C457.71 199.49 458.9 199.67 461.12 200.02C463.34 200.37 466.62 200.82 470.75 201.57C474.9 202.26 479.92 203.21 485.67 204.35C491.42 205.55 497.89 206.95 504.91 208.73C511.94 210.44 519.49 212.59 527.45 215.04C535.4 217.48 543.71 220.38 552.21 223.69C569.2 230.3 586.93 238.73 603.76 248.98C618.28 257.79 632.12 267.94 644.47 278.7C655.73 275.49 669.31 266.35 668.3 254.64C664.87 253.09 661.37 251.52 657.8 249.96C642.01 243.02 624.94 236.09 607.66 229.7C603.34 228.08 599 226.51 594.67 224.99C590.35 223.43 586.02 221.94 581.72 220.49C577.43 219 573.14 217.6 568.9 216.22C564.68 214.82 560.48 213.49 556.34 212.21C548.08 209.59 540.04 207.25 532.42 205C524.77 202.84 517.55 200.74 510.84 198.98C507.49 198.08 504.27 197.22 501.22 196.39C498.15 195.61 495.24 194.87 492.51 194.17C487.05 192.76 482.27 191.56 478.33 190.63C470.45 188.73 465.95 187.64 465.95 187.64C465.95 187.64 470.52 188.32 478.54 189.52C482.55 190.1 487.42 190.88 492.99 191.8C495.78 192.25 498.74 192.74 501.87 193.25C504.99 193.8 508.28 194.38 511.7 194.98C518.56 196.14 525.96 197.6 533.8 199.07C541.62 200.65 549.88 202.28 558.39 204.18C562.66 205.08 566.98 206.05 571.35 207.08C575.73 208.08 580.15 209.11 584.6 210.22C589.05 211.3 593.54 212.41 598.03 213.59C602.53 214.74 607.03 215.94 611.53 217.18C629.53 222.09 647.42 227.56 664.05 233.19C669.55 235.03 674.9 236.9 680.09 238.75C689.32 230.96 701.28 218.54 697.57 206.65C695.79 206.65 694.01 206.63 692.21 206.56C687.44 206.46 682.6 206.35 677.69 206.24C672.8 205.97 667.85 205.7 662.87 205.43C660.38 205.29 657.88 205.15 655.37 205.01C652.87 204.85 650.36 204.59 647.85 204.38C642.84 203.94 637.8 203.5 632.76 203.06C622.71 202.05 612.69 200.78 602.84 199.63C593.02 198.21 583.37 196.8 574.02 195.45C564.72 193.86 555.73 192.32 547.2 190.86C538.69 189.38 530.69 187.68 523.29 186.27C515.9 184.82 509.12 183.53 503.15 182.16C497.17 180.84 491.96 179.69 487.66 178.75C479.09 176.87 474.19 175.79 474.19 175.79C474.19 175.79 479.16 176.46 487.86 177.64C492.2 178.23 497.48 178.95 503.54 179.77C509.58 180.65 516.44 181.37 523.9 182.21C531.38 183.01 539.44 184.05 548.01 184.83C556.58 185.58 565.61 186.38 574.94 187.2C584.29 187.78 593.95 188.38 603.76 189C613.58 189.33 623.54 189.77 633.49 189.96C638.47 189.99 643.44 190.02 648.4 190.04C650.87 190.04 653.34 190.1 655.8 190.06C658.26 189.99 660.71 189.93 663.16 189.87C668.03 189.73 672.87 189.6 677.65 189.47C682.41 189.18 687.11 188.9 691.74 188.63C696.22 188.43 700.58 187.96 704.86 187.55C712.79 179.87 716.31 168.94 711.81 160.37C708.58 161.29 705.32 162.18 702.03 163.02C690.77 165.84 679.27 168.41 667.66 170.3C656.09 172.37 644.42 173.7 632.95 174.83C627.2 175.26 621.5 175.7 615.87 176.01C610.23 176.17 604.67 176.51 599.2 176.53C593.72 176.49 588.35 176.65 583.09 176.46C577.83 176.26 572.68 176.21 567.69 175.9C562.7 175.56 557.84 175.24 553.15 174.93C548.47 174.45 543.95 173.99 539.61 173.56C535.27 173.19 531.14 172.48 527.2 171.99C523.28 171.41 519.53 171.03 516.05 170.37C509.08 169.13 503 168.22 498.03 167.18C488.1 165.12 482.42 163.94 482.42 163.94C482.42 163.94 488.16 164.71 498.2 166.06C503.21 166.75 509.34 167.23 516.34 167.97" id="e4lHoc6IlH"></path><path d="M310.17 132.66L323.65 134.31L313.9 142.3L316.2 153.58L304.14 148.25L292.08 153.58L294.38 142.3L284.62 134.31L298.11 132.66L304.14 122.39L310.17 132.66Z" id="c2SDrRsmHY"></path><radialGradient id="gradientdjJXZOxMG" gradientUnits="userSpaceOnUse" cx="304.14" cy="122.39" dx="304.14" dy="153.58" r="31.19"><stop style="stop-color: #ffffff;stop-opacity: 1" offset="0%"></stop><stop style="stop-color: #010000;stop-opacity: 1" offset="100%"></stop></radialGradient><path d="M366.74 113.93L380.23 115.57L370.47 123.56L372.77 134.85L360.71 129.52L348.65 134.85L350.95 123.56L341.2 115.57L354.68 113.93L360.71 103.66L366.74 113.93Z" id="f1KQw1tely"></path><radialGradient id="gradienta2CbBGQ5wB" gradientUnits="userSpaceOnUse" cx="360.71" cy="103.66" dx="360.71" dy="134.85" r="31.19"><stop style="stop-color: #ffffff;stop-opacity: 1" offset="0%"></stop><stop style="stop-color: #010000;stop-opacity: 1" offset="100%"></stop></radialGradient><path d="M424.35 132.66L437.83 134.31L428.07 142.3L430.38 153.58L418.32 148.25L406.26 153.58L408.56 142.3L398.8 134.31L412.29 132.66L418.32 122.39L424.35 132.66Z" id="isCN72uRC"></path><radialGradient id="gradientf8gO2A4wfO" gradientUnits="userSpaceOnUse" cx="418.32" cy="122.39" dx="418.32" dy="153.58" r="31.19"><stop style="stop-color: #ffffff;stop-opacity: 1" offset="0%"></stop><stop style="stop-color: #010000;stop-opacity: 1" offset="100%"></stop></radialGradient></defs><g><g><use xlink:href="#e4lHoc6IlH" opacity="0.58" fill="#000000" fill-opacity="1"></use><g><use xlink:href="#e4lHoc6IlH" opacity="0.58" fill-opacity="0" stroke="#000000" stroke-width="1" stroke-opacity="0"></use></g></g><g><use xlink:href="#c2SDrRsmHY" opacity="0.5" fill="url(#gradientdjJXZOxMG)"></use><g><use xlink:href="#c2SDrRsmHY" opacity="0.5" fill-opacity="0" stroke="#eccfa5" stroke-width="1" stroke-opacity="0"></use></g></g><g><use xlink:href="#f1KQw1tely" opacity="0.5" fill="url(#gradienta2CbBGQ5wB)"></use><g><use xlink:href="#f1KQw1tely" opacity="0.5" fill-opacity="0" stroke="#e1a210" stroke-width="1" stroke-opacity="0"></use></g></g><g><use xlink:href="#isCN72uRC" opacity="0.5" fill="url(#gradientf8gO2A4wfO)"></use><g><use xlink:href="#isCN72uRC" opacity="0.5" fill-opacity="0" stroke="#f3d582" stroke-width="1" stroke-opacity="0"></use></g></g></g></svg></a>
+    </div>
+    <div class="ax-user">
+      <a class="p-2 w-7 h-7 block text-raven-500 hover:text-gray-800 focus:text-gray-800 focus:outline-none" target="_blank" rel="noopener nofollow" href="https://www.google.com/search?q=site:github.com" title="Search">
+        <svg class="fill-current" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M2.67 12.804c0-5.6 4.544-10.134 10.133-10.134s10.134 4.544 10.134 10.134-4.544 10.133-10.134 10.133S2.67 18.393 2.67 12.804zm28.943 16.923l-8.868-8.868c4.287-5.3 3.68-13.012-1.378-17.57S8.564-1.066 3.75 3.75s-5.017 12.558-.46 17.618 12.28 5.665 17.57 1.378l8.868 8.868a1.33 1.33 0 0 0 2.231-.597c.123-.46-.008-.952-.345-1.29h0z"/></svg>
+
+      </a>
+      <a class="p-2 block text-sm leading-none text-raven-500 hover:text-gray-800 focus:text-gray-800 focus:outline-none" href="/posts/">
+        Posts
+      </a>
+    </div>
+  </div>
+
+  
+</header>
+
+  <main>
+<div class="default-single">
+  <div class="ax-header ax-l-o">
+    <div class="ax-l-i">
+      <h1 class="post-title font-content-title font-normal leading-tight tracking-default text-40">MicroK8s &#43; MicroStack &#43; Charmed OSM</h1>
+
+      <div class="ax-meta flex items-center mt-5">
+        <div class="flex-grow min-w-0">
+          <div class="flex items-center">
+  <div class="flex-shrink-0">
+    <img
+    class="w-12 h-12 sm:w-14 sm:h-14 object-cover p-05 rounded-full border border-blue-300"
+    src="/image/brand/logo.png"
+    alt="xiaokh">
+  </div>
+  <div class="flex-shrink-0 ml-2 leading-tight font-content-sans">
+    <a class="block text-sm text-raven-800 hover:text-raven-900 hover:underline focus:underline" target="_blank" rel="noopener nofollow" title="xiaokh" href="https://xiaookh.github.com/">xiaokh</a>
+    <time class="text-sm text-raven-500" datetime="2020-06-01T02:11:56Z">Jun 1, 2020 10:11AM</time>
+  </div>
+</div>
+
+        </div>
+        <div>
+          <div class="flex items-center">
+  <a class="flex-shrink-0 block text-raven-800 hover:text-raven-900" target="_blank" rel="noopener nofollow" title="Share on Twitter" href="https://twitter.com/intent/tweet?text=MicroK8s%20%2b%20MicroStack%20%2b%20Charmed%20OSM%20by%20%40%25%21s%28%3cnil%3e%29%20http%3a%2f%2fxiaokh.github.io%2fcharmed-osm%2f"><svg class="w-6 h-6 fill-current" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M32 6.078c-1.2.522-2.458.868-3.78 1.036 1.36-.812 2.398-2.088 2.886-3.626a13.11 13.11 0 0 1-4.16 1.588C25.742 3.794 24.026 3 22.154 3a6.56 6.56 0 0 0-6.556 6.562c0 .52.044 1.02.152 1.496-5.454-.266-10.28-2.88-13.522-6.862-.566.982-.898 2.106-.898 3.316a6.57 6.57 0 0 0 2.914 5.452 6.48 6.48 0 0 1-2.964-.808v.072c0 3.188 2.274 5.836 5.256 6.446-.534.146-1.116.216-1.72.216-.42 0-.844-.024-1.242-.112.85 2.598 3.262 4.508 6.13 4.57a13.18 13.18 0 0 1-8.134 2.798c-.538 0-1.054-.024-1.57-.1C2.906 27.93 6.35 29 10.064 29c12.072 0 18.672-10 18.672-18.668 0-.3-.01-.57-.024-.848C30.014 8.56 31.108 7.406 32 6.078z"/></svg>
+</a>
+  <a class="ml-3 flex-shrink-0 block text-raven-800 hover:text-raven-900" target="_blank" rel="noopener nofollow" title="Share on Facebook" href="https://www.facebook.com/dialog/share?app_id=&display=page&href=http%3a%2f%2fxiaokh.github.io%2fcharmed-osm%2f"><svg class="w-6 h-6 fill-current" viewBox="-7 -3.5 39 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M30.234 0H1.765C.8.001 0 .79 0 1.766v28.47C.001 31.2.79 32 1.766 32h15.328V19.625h-4.156V14.78h4.156v-3.564c0-4.134 2.523-6.384 6.21-6.384 1.766 0 3.284.13 3.726.2v4.32h-2.543c-2.006 0-2.394.953-2.394 2.352v3.085h4.797l-.625 4.844h-4.172V32h8.14C31.21 32 32 31.2 32 30.234V1.765C32 .8 31.21 0 30.234 0z"/></svg>
+</a>
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div><div class="ax-content ax-l-o">
+    <div class="ax-l-i">
+      <article class="cdata">
+<h5>1.OSM介绍</h5>
+<p>​     开源MANO(OSM:OpenSource MANO )是ETSI托管的项目，用于开发与ETSI NFV一致的开源NFV管理和编排（MANO）软件堆栈。作为一个社区主导的社区，OSM提供了生产质量的MANO堆栈，可满足运营商对商业NFV（虚拟网络功能）部署的要求。</p>
+<p>​    而Charmed OSM是Ubuntu上的OSM是一个工具集，可用于直接在工作站上装载和编排实际的VNF。 它包含以下组件：</p>
+<ol>
+<li>MicroK8-用于部署将托管OSM安装的本地Kubernetes集群</li>
+<li>MicroStack-用于部署本地OpenStack群集并将其用作OSM的VIM（虚拟基础结构管理器）</li>
+<li>Charmed OSM-简单的OSM安装与上游项目完全一致</li>
+</ol>
+<p>下面将进行：</p>
+<ol>
+<li>在MicroK8之上部署Charmed OSM</li>
+<li>部署MicroStack并将其添加为Charmed OSM的VIM</li>
+<li>通过Charmed OSM的部署VNF</li>
+</ol>
+<h5>2.测试环境：</h5>
+<p>最小推荐配置:</p>
+<ul>
+<li>操作系统<strong>Ubuntu 18.04 LTS</strong></li>
+<li>内存<strong>16 GB</strong></li>
+<li><strong>4 CPUs</strong></li>
+<li>可用磁盘空间<strong>50 GB</strong></li>
+</ul>
+<p>特别是内存，一定要满足16G，否则容易出各种错误。</p>
+<h5>3.开始前的环境准备</h5>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo snap install juju --classic
+sudo snap install osmclient --beta
+sudo snap connect osmclient:juju-client-observe
+sudo snap connect osmclient:ssh-public-keys
+sudo snap connect osmclient:network-control
+
+juju bootstrap localhost osm-lxd
+</code></pre></div><h5>4.搭建MicroK8s</h5>
+<p>#因为网络原因，k8s在enable前，需要配置代理，或者设置国内源
+#下面配置代理
+sudo vim /var/snap/microk8s/current/args/containerd-env
+中的
+HTTPS_PROXY=<em>https://squid.internal:3128</em></p>
+<p>修改为代理的地址</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo snap install microk8s --classic
+<span class="c1">#sudo snap info microk8s</span>
+<span class="c1">#sudo ufw allow in on ens3 &amp;&amp; sudo ufw allow out on ens3</span>
+<span class="c1">#sudo ufw default allow routed</span>
+sudo microk8s.status
+sudo systemctl restart snap.microk8s.daemon-**
+sudo usermod -a -G microk8s <span class="nv">$USER</span>
+newgrp microk8s
+microk8s.status --wait-ready
+microk8s.enable storage dns
+microk8s.kubectl cluster-info
+</code></pre></div><p>以下是测试microk8s,可以跳过</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">token</span><span class="o">=</span><span class="k">$(</span>sudo microk8s.kubectl -n kube-system get secret <span class="p">|</span> grep default-token <span class="p">|</span> cut -d <span class="s2">&#34; &#34;</span> -f1<span class="k">)</span>
+microk8s.kubectl -n kube-system describe secret <span class="nv">$token</span>
+sudo microk8s.config
+sudo microk8s.kubectl create deployment microbot --image<span class="o">=</span>dontrebootme/microbot:v1
+sudo microk8s.kubectl scale deployment microbot --replicas<span class="o">=</span><span class="m">2</span>
+sudo microk8s.kubectl expose deployment microbot --type<span class="o">=</span>NodePort --port<span class="o">=</span><span class="m">80</span> --name<span class="o">=</span>microbot-service
+sudo microk8s.stop
+sudo microk8s.start
+sudo microk8s.inspect
+</code></pre></div><h5>5.搭建MicroStack</h5>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo snap install microstack --classic --beta
+sudo microstack.init --auto
+wget https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-amd64-disk1.img
+microstack.openstack image create --public --disk-format qcow2 <span class="se">\
+</span><span class="se"></span>  --container-format bare <span class="se">\ </span>
+  --file ubuntu-16.04-server-cloudimg-amd64-disk1.img ubuntu1604
+
+microstack.openstack server list
+</code></pre></div><h5>6.搭建Charmed OSM</h5>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">juju bootstrap microk8s osm-k8s
+juju add-model osm
+osmclient.overlay
+juju deploy osm --overlay vca-overlay.yaml
+juju status
+<span class="nb">export</span> <span class="nv">OSM_HOSTNAME</span><span class="o">=</span><span class="sb">`</span>juju status nbi-k8s <span class="p">|</span> grep kubernetes <span class="p">|</span> awk <span class="s1">&#39;{print $9}&#39;</span><span class="sb">`</span>
+<span class="nb">echo</span> <span class="s2">&#34;export OSM_HOSTNAME=</span><span class="nv">$OSM_HOSTNAME</span><span class="s2">&#34;</span> &gt;&gt; ~/.bashrc
+osmclient.osm ns-list
+</code></pre></div><h5>7.设置MicroStack作为VIM</h5>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">      osmclient.osm vim-create --name microstack <span class="se">\
+</span><span class="se"></span>      --user admin <span class="se">\
+</span><span class="se"></span>      --password keystone <span class="se">\
+</span><span class="se"></span>      --auth_url http://10.20.20.1:5000/v3 <span class="se">\
+</span><span class="se"></span>      --tenant admin <span class="se">\
+</span><span class="se"></span>      --account_type openstack <span class="se">\
+</span><span class="se"></span>      --config<span class="o">=</span><span class="s1">&#39;{security_groups: default,
+</span><span class="s1">                 keypair: microstack,
+</span><span class="s1">                 project_name: admin,
+</span><span class="s1">                 user_domain_name: default,
+</span><span class="s1">                 region_name: microstack,
+</span><span class="s1">                 insecure: True,
+</span><span class="s1">                 availability_zone: nova,
+</span><span class="s1">                 version: 3,
+</span><span class="s1">                 use_floating_ip: true}&#39;</span>
+</code></pre></div><h5>8.部署VNFs</h5>
+<p>下载以下文件需要科学上网</p>
+<p>export http_proxy=http://xxx.xxx.xxx.xxx:1234</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">wget http://bit.ly/basic_vnfd -O hackfest_basic_vnf.tar.gz
+wget http://bit.ly/basic_nsd -O hackfest_basic_ns.tar.gz
+osmclient.osm upload-package hackfest_basic_vnf.tar.gz
+osmclient.osm upload-package hackfest_basic_ns.tar.gz
+osmclient.osm nsd-list
+osmclient.osm vnfd-list
+osmclient.osm ns-create --ns_name hackfest_basic_ns --nsd_name hackfest_basic-ns --vim_account microstack --config <span class="s1">&#39;{vld: [ { name: mgmtnet, vim-network-name: test } ] }&#39;</span>
+osmclient.osm ns-list
+osmclient.osm ns-show hackfest_basic_ns
+<span class="nv">IP</span><span class="o">=</span><span class="sb">`</span>microstack.openstack server list -c Networks -f value --name basic <span class="p">|</span> awk <span class="s1">&#39;{ print $2 }&#39;</span><span class="sb">`</span>
+ssh ubuntu@<span class="nv">$IP</span> -i .ssh/id_microstack
+<span class="nb">unset</span> http_proxy
+microstack.openstack catalog list
+microstack.openstack server list
+</code></pre></div><p>OSM截图</p>
+<ol>
+<li>
+<p>Login
+<img src="/image/p2006/osm1.png" alt="OSM Login">
+用户名/密码: admin/admin</p>
+</li>
+<li>
+<p>Dashboard
+<img src="/image/p2006/osm2.png" alt="OSM dashboard"></p>
+</li>
+</ol>
+<h5>9.收尾工作</h5>
+<p>建议您在不使用开发堆栈时将其禁用，尤其是在工作站上运行它时。 这样，您就不会浪费工作站的资源。 您可以通过运行以下命令来禁用开发堆栈：</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1">#Enable/Disable the Development Stack</span>
+microk8s.disable dns
+sudo snap disable microstack
+sudo snap disable microk8s
+</code></pre></div><p>您始终可以使用以下命令启用开发堆栈：</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo snap <span class="nb">enable</span> microstack<span class="p">;</span> sleep <span class="m">60</span>
+sudo snap <span class="nb">enable</span> microk8s
+microk8s.status --wait-ready
+microk8s.enable dns
+</code></pre></div><p>通常，重新启动Openstack计算节点时，服务器处于关闭状态，因此您需要启动它们：</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">microstack.openstack server list
+microstack.openstack server start &lt;server ID&gt;
+</code></pre></div><p>注意</p>
+<ol>
+<li>内存要足够</li>
+<li>juju和k8s的状态要检查，可能很耗时等待status为active或running</li>
+</ol>
+<p>Reference</p>
+<ol>
+<li><a href="https://jaas.ai/tutorials/charmed-osm-get-started">charmed-osm-get-started</a></li>
+</ol>
+
+      </article>
+      
+
+      
+
+    </div>
+  </div>
+</div>
+
+  </main>
+  <footer class="footer">
+  <div class="ax-l-i">
+    <nav class="flex items-center justify-center">
+      <a class="ml-3 first:ml-0 text-sm text-gray-600 hover:text-gray-800" href="/posts/">Posts</a>
+      <a class="ml-3 first:ml-0 text-sm text-gray-600 hover:text-gray-800" href="/"></a>
+    </nav>
+
+    <div class="footer-copyright text-sm text-center text-gray-500 mt-4">
+      &#169; 2019-2020 xiaokh
+    </div>
+    <div class="text-sm sm:text-xs text-center text-gray-500 mt-2">
+      Powered by <a href="https://www.axiomtheme.com/">Axiom</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/bundle.js?v=1591074720"></script>
+</body>
+</html>
